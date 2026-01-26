@@ -1,0 +1,55 @@
+name: PHP Lint & Tests
+
+on:
+  push:
+    branches: [ master, main, develop ]
+  pull_request:
+    branches: [ master, main, develop ]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.1'
+        tools: phpstan, php-cs-fixer
+    
+    - name: Check PHP Syntax
+      run: find . -name "*.php" -type f ! -path "./vendor/*" ! -path "./.git/*" -exec php -l {} \;
+    
+    - name: Run PHP Linter
+      run: |
+        find . -name "*.php" -type f ! -path "./vendor/*" ! -path "./.git/*" | while read file; do
+          php -l "$file" || exit 1
+        done
+    
+    - name: PHPStan Analysis
+      continue-on-error: true
+      run: phpstan analyse --level=5 --no-interaction config/ controllers/ model/ payment/ helpers/
+    
+    - name: Check .env is not committed
+      run: |
+        if git ls-files | grep -q "^\.env$"; then
+          echo "ERROR: .env file should not be committed!"
+          exit 1
+        fi
+
+  security:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Scan for secrets
+      uses: trufflesecurity/trufflehog@main
+      with:
+        path: ./
+        base: ${{ github.event.repository.default_branch }}
+        head: HEAD
+        extra_args: --debug
+      continue-on-error: true

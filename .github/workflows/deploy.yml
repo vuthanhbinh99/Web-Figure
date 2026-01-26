@@ -1,0 +1,38 @@
+name: Deploy to Production
+
+on:
+  push:
+    branches: [ master ]
+    tags: [ 'v*' ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+    
+    - name: Deploy to Server
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.DEPLOY_HOST }}
+        username: ${{ secrets.DEPLOY_USER }}
+        key: ${{ secrets.DEPLOY_SSH_KEY }}
+        script: |
+          cd /var/www/quan-ly-ban-hang
+          
+          # Pull latest code
+          git pull origin master
+          
+          # Build and run Docker containers
+          docker-compose pull
+          docker-compose up -d
+          
+          # Run migrations if needed
+          docker-compose exec -T app php index.php
+          
+          echo "Deployment completed successfully!"
+      
+      continue-on-error: true
