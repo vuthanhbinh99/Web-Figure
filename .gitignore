@@ -1,0 +1,40 @@
+# Environment variables - NEVER commit sensitive data
+.env
+.env.local
+.env.*.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# PHP
+vendor/
+composer.lock
+
+# Node (if using frontend build)
+node_modules/
+dist/
+build/
+
+# Cache
+*.cache
+.cache/
+
+# Logs
+*.log
+logs/
+
+# Database backups
+*.sql
+*.sql.gz
+
+# Misc
+.htaccess.local
+config/.htaccess
