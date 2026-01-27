@@ -1,24 +1,26 @@
 <?php
-session_start();
-include("./config/database.php");
-include("./model/Product.php");
-include("./model/Category.php");
+/**
+ * Main Entry Point - Redirects to React Frontend
+ * 
+ * Old HTML views are deprecated. Use React frontend instead.
+ * React app runs on http://localhost:3000
+ */
 
-$productModel = new Product($conn);
-$products = $productModel->getAll();
-$featuredProducts = $productModel->getFeatured();
-$cateModel = new Category($conn);
-$categories = $cateModel ->getAll();
-
-$q = isset($_GET['q']) ? trim($_GET['q']) : "";
-
-if ($q !== "") {
-    $products = $productModel->searchByName($q);
-} else {
-    $products = $productModel->getAll();
+// If it's an API request or test file, let it pass through
+if (strpos($_SERVER['REQUEST_URI'], '/api/') !== false || 
+    strpos($_SERVER['REQUEST_URI'], 'test_db.php') !== false) {
+    // API requests are handled by /api/ folder
+    return false;
 }
 
-$root = "/QuanLyBanHangFigure";
+// For all other requests, redirect to React app
+$protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http';
+$host = $_SERVER['HTTP_HOST'];
+$react_url = $protocol . '://' . str_replace(':8000', ':3000', $host);
+
+// Redirect to React
+header("Location: $react_url");
+exit;
 ?>
 <!DOCTYPE html>
 <html lang="en">

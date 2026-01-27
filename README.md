@@ -1,99 +1,91 @@
-# Quản Lý Bán Hàng - E-commerce Platform
+# 🛍️ FigureStore - E-commerce Platform
 
-PHP-based e-commerce platform với thanh toán Momo, quản lý sản phẩm, và giỏ hàng.
+Modern e-commerce platform với **React Frontend** + **PHP Backend**, thanh toán Momo, và quản lý sản phẩm đầy đủ.
 
-## Tech Stack
+## 🚀 Tech Stack
 
+- **Frontend**: React 18 + React Router + Bootstrap 5
 - **Backend**: PHP 8.1
 - **Database**: MySQL 8.0
 - **Server**: Apache 2
 - **Payment**: Momo Gateway (Production)
-- **Frontend**: HTML5, CSS3, JavaScript
+- **API**: REST API (30+ endpoints)
 
-## Yêu Cầu
+## ⚙️ Yêu Cầu
 
 ### Local Development
-- PHP 8.1+
-- MySQL 8.0
-- Composer
-- Apache2 với mod_rewrite
+- **Node.js** v16+ (cho React)
+- **PHP 8.1+** (cho Backend)
+- **MySQL 8.0** (cho Database)
+- **Composer** (cho PHP dependencies)
+- **Apache2** với mod_rewrite
 
-### Docker
-- Docker
-- Docker Compose
+## ⚡ Quick Start
 
-## Installation
-
-### Option 1: Local Setup
-
-1. **Clone repository**
+### Windows:
 ```bash
-git clone https://github.com/yourusername/quan-ly-ban-hang.git
-cd quan-ly-ban-hang
+cd QuanLyBanHangFigure
+quickstart.bat
 ```
 
-2. **Copy .env.example to .env**
+### Linux/Mac:
 ```bash
+cd QuanLyBanHangFigure
+bash quickstart.sh
+```
+
+### Manual Setup:
+```bash
+# 1. Install dependencies
+cd frontend
+npm install
+
+# 2. Setup environment
 cp .env.example .env
+
+# 3. Start React app
+npm start
 ```
 
-3. **Update .env với credentials thực tế**
+Ứng dụng sẽ mở ở `http://localhost:3000`
+
+## 📋 Project Structure
+
 ```
-DB_HOST=localhost
-DB_USER=root
-DB_PASSWORD=your_password
-DB_NAME=quan_ly_ban_hang
-MOMO_PARTNER_CODE=your_production_partner_code
-MOMO_ACCESS_KEY=your_production_access_key
-MOMO_SECRET_KEY=your_production_secret_key
-MOMO_ENDPOINT=https://payment.momo.vn/v2/gateway/api/create
-APP_URL=http://yourdomain.com
-```
-
-4. **Tạo database**
-```bash
-mysql -u root -p < database.sql
-```
-
-5. **Chạy local**
-- Đặt project vào `/var/www/html` hoặc thư mục Apache của bạn
-- Truy cập `http://localhost/quan-ly-ban-hang`
-
-### Option 2: Docker Setup
-
-1. **Clone repository**
-```bash
-git clone https://github.com/yourusername/quan-ly-ban-hang.git
-cd quan-ly-ban-hang
+QuanLyBanHangFigure/
+├── frontend/              # React Frontend
+│   ├── src/
+│   │   ├── pages/        # 9 pages
+│   │   ├── components/   # Reusable components
+│   │   ├── services/     # API service
+│   │   └── context/      # Auth & Cart state
+│   └── package.json
+├── api/                   # REST API Endpoints (30+)
+│   ├── auth/             # Authentication
+│   ├── products/         # Products
+│   ├── categories/       # Categories
+│   ├── cart/             # Shopping Cart
+│   ├── orders/           # Orders
+│   ├── users/            # User Profiles
+│   ├── reviews/          # Reviews
+│   └── vouchers/         # Vouchers
+├── config/               # Database configuration
+├── model/                # Data models
+├── helpers/              # Helper functions
+└── images/               # Product images
 ```
 
-2. **Copy .env.example to .env**
-```bash
-cp .env.example .env
-```
+## 🔗 URLs
 
-3. **Update .env với credentials**
-```bash
-nano .env  # hoặc sử dụng editor yêu thích
-```
+| Service | URL |
+|---------|-----|
+| Frontend | http://localhost:3000 |
+| Backend API | http://localhost:8000/QuanLyBanHangFigure/api |
+| Images | http://localhost:8000/QuanLyBanHangFigure/images |
 
-4. **Build and run với Docker Compose**
-```bash
-docker-compose up -d
-```
+## 🔐 Database Configuration
 
-5. **Import database**
-```bash
-docker exec quan_ly_ban_hang_mysql mysql -u root -p < database.sql
-```
-
-6. **Truy cập ứng dụng**
-- App: `http://localhost`
-- PhpMyAdmin: `http://localhost:8080`
-
-## Environment Variables
-
-Tất cả credentials nhạy cảm được quản lý qua `.env` file:
+Update `.env` file:
 
 | Variable | Mô tả | Ví dụ |
 |----------|-------|-------|
